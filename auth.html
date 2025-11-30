@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>EcoTrack - Sign In / Register</title>
+  <link rel="stylesheet" href="landing.css">
+  <style>
+    body { background: linear-gradient(135deg,#f0fdf4,#f9fafb); font-family: 'Segoe UI', Tahoma, sans-serif; }
+    .auth-wrap { max-width: 900px; margin: 40px auto; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 24px; }
+    .auth-panel { background: white; padding: 24px; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.06); }
+    .auth-panel h2 { margin-bottom: 8px; }
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display:block; font-weight:600; margin-bottom:6px; }
+    .form-group input { width:100%; padding:10px 12px; border-radius:8px; border:1px solid #e5e7eb; }
+    .btn { display:inline-block; padding:12px 18px; border-radius:8px; border:none; cursor:pointer; }
+    .btn-primary { background: linear-gradient(135deg,#22c55e,#16a34a); color:white; font-weight:700; }
+    .helper { font-size:0.9rem; color:#6b7280; }
+  </style>
+</head>
+<body>
+  <main class="auth-wrap">
+    <div id="authPanels" style="max-width:900px; width: min(900px, 95vw); margin:40px auto;">
+      <section id="registerPanel" class="auth-panel panel">
+        <h2>Create account</h2>
+        <p class="helper">Register to save your progress and plant trees.</p>
+        <div class="form-group"><label>Name</label><input id="reg-name" type="text" placeholder="Full name"></div>
+        <div class="form-group"><label>Email</label><input id="reg-email" type="email" placeholder="you@example.com"></div>
+        <div class="form-group"><label>Password</label><input id="reg-password" type="password" placeholder="Choose a password"></div>
+        <div style="display:flex; gap:12px; align-items:center;">
+          <button id="registerBtn" class="btn btn-primary">Register</button>
+          <button id="toLogin" class="btn" aria-label="Go to sign in">Already have an account</button>
+        </div>
+        <div id="reg-msg" style="margin-top:12px;color:#a50c0c"></div>
+      </section>
+      <section id="loginPanel" class="auth-panel panel" style="display:none; margin-top:18px;">
+        <h2>Sign in</h2>
+        <p class="helper">Sign in to continue to EcoTrack.</p>
+        <div class="form-group"><label>Email</label><input id="login-email" type="email"></div>
+        <div class="form-group"><label>Password</label><input id="login-password" type="password"></div>
+        <div style="display:flex; gap:12px; align-items:center;">
+          <button id="loginBtn" class="btn btn-primary">Sign In</button>
+          <button id="toRegister" class="btn" aria-label="Create account">Create account</button>
+        </div>
+        <div style="margin-top:10px;">
+          <button id="forgotPasswordBtn" class="btn" style="color:#2563eb; background:transparent; border:none; padding:0;">Forgot password?</button>
+        </div>
+        <div id="login-msg" style="margin-top:12px;color:#dc2626"></div>
+      </section>
+    </div>
+  </main>
+
+<script>
+// Helpers to call serverless endpoints with local fallback
+async function callRegister(payload) {
+  try {
+    const resp = await fetch('/.netlify/functions/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+    const data = await resp.json();
+    if (!resp.ok) return { error: data.error || 'Registration failed' };
+    return data;
+  } catch (e) {
+    // Local fallback: create user in localStorage
+    const users = JSON.parse(localStorage.getItem('localUsers') || '[]');
+    if (users.find(u=>u.email === payload.email)) return { error: 'Email already registered (local)' };
+    const user = { id: Date.now().toString(), name: payload.name || payload.email.split('@')[0], email: payload.email, password: payload.password };
+    users.push(user);
+    localStorage.setItem('localUsers', JSON.stringify(users));
+    const token = btoa(user.id);
+    return { success: true, token, user: { id: user.id, name: user.name, email: user.email } };
+  }
+}
+
+async function callLogin(payload) {
+  try {
+    const resp = await fetch('/.netlify/functions/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+    const data = await resp.json();
+    if (!resp.ok) return { error: data.error || 'Login failed' };
+    return data;
+  } catch (e) {
+    // Local fallback
+    const users = JSON.parse(localStorage.getItem('localUsers') || '[]');
+    const user = users.find(u => u.email === payload.email && u.password === payload.password);
+    if (!user) return { error: 'Invalid credentials (local)' };
+    const token = btoa(user.id);
+    return { success: true, token, user: { id: user.id, name: user.name, email: user.email } };
+  }
+}
+function setAuth(token, user) {
+  localStorage.setItem('ecotrack_token', token);
+  localStorage.setItem('ecotrack_user', JSON.stringify(user));
+}
+function showMessage(id, text) { document.getElementById(id).textContent = text; }
+// UI wiring
+document.getElementById('registerBtn').addEventListener('click', async () => {
+  const name = document.getElementById('reg-name').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const password = document.getElementById('reg-password').value;
+  showMessage('reg-msg','');
+  if (!email || !password) { showMessage('reg-msg','Please provide email and password'); return; }
+  const res = await callRegister({ name, email, password });
+  if (res.error) { showMessage('reg-msg', res.error); return; }
+  setAuth(res.token, res.user);
+  window.location.href = 'index.html';
+});
+
+document.getElementById('loginBtn').addEventListener('click', async () => {
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  showMessage('login-msg','');
+  if (!email || !password) { showMessage('login-msg','Please provide email and password'); return; }
+  const res = await callLogin({ email, password });
+  if (res.error) { showMessage('login-msg', res.error); return; }
+  setAuth(res.token, res.user);
+  window.location.href = 'index.html';
+});
+
+// Toggle to other form (show single-panel view)
+function showPanel(name) {
+  const reg = document.getElementById('registerPanel');
+  const login = document.getElementById('loginPanel');
+  if (name === 'register') {
+    reg.style.display = '';
+    login.style.display = 'none';
+    // focus first input
+    setTimeout(() => document.getElementById('reg-name')?.focus(), 100);
+  } else {
+    reg.style.display = 'none';
+    login.style.display = '';
+    setTimeout(() => document.getElementById('login-email')?.focus(), 100);
+  }
+}
+
+document.getElementById('toLogin').addEventListener('click', (e) => { e.preventDefault(); showPanel('login'); });
+document.getElementById('toRegister').addEventListener('click', (e) => { e.preventDefault(); showPanel('register'); });
+
+// If already logged in, redirect to index
+(function(){
+  const t = localStorage.getItem('ecotrack_token');
+  if (t) window.location.href = 'index.html';
+})();
+
+// Honor URL param ?mode=register to open the register view directly
+(() => {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const mode = params.get('mode');
+    if (mode === 'register') showPanel('register'); else showPanel('login');
+  } catch (e) { showPanel('login'); }
+})();
+
+// Forgot password flow
+document.getElementById('forgotPasswordBtn').addEventListener('click', () => showForgotPasswordModal());
+
+function showForgotPasswordModal() {
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  modal.style.position = 'fixed';
+  modal.style.inset = '0';
+  modal.style.background = 'rgba(0,0,0,0.4)';
+  modal.style.display = 'flex';
+  modal.style.alignItems = 'center';
+  modal.style.justifyContent = 'center';
+  modal.innerHTML = `
+    <div style="background:#fff;padding:20px;border-radius:12px;max-width:900px;width: min(900px, 95vw);">
+      <h3>Reset your password</h3>
+      <p class="helper">Enter the email address associated with your account. We'll send a reset link.</p>
+      <div style="margin-top:10px;"><input id="fp-email" type="email" placeholder="you@example.com" style="width:100%;padding:10px;border-radius:8px;border:1px solid #e5e7eb;"></div>
+      <div style="display:flex;gap:10px;margin-top:12px;justify-content:flex-end;">
+        <button id="fp-cancel" class="btn">Cancel</button>
+        <button id="fp-send" class="btn btn-primary">Send Reset Email</button>
+      </div>
+      <div id="fp-msg" style="margin-top:10px;color:#065f46"></div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  modal.querySelector('#fp-cancel').addEventListener('click', () => modal.remove());
+  modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
+
+  modal.querySelector('#fp-send').addEventListener('click', async () => {
+    const email = modal.querySelector('#fp-email').value.trim();
+    const msgEl = modal.querySelector('#fp-msg');
+    msgEl.textContent = '';
+    if (!email) { msgEl.style.color = '#b91c1c'; msgEl.textContent = 'Please enter an email.'; return; }
+
+    try {
+      const resp = await fetch('/.netlify/functions/forgotPassword', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
+      const data = await resp.json();
+      if (data.demoResetLink) {
+        msgEl.style.color = '#064e3b';
+        msgEl.innerHTML = `Demo reset link (no SMTP): <a href="${data.demoResetLink}">${data.demoResetLink}</a>`;
+      } else {
+        msgEl.style.color = '#064e3b';
+        msgEl.textContent = data.message || 'If an account exists, a reset email was sent.';
+      }
+    } catch (err) {
+      msgEl.style.color = '#b91c1c';
+      msgEl.textContent = 'Unable to send reset email right now.';
+    }
+  });
+}
+</script>
+</body>
+</html>

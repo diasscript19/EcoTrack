@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoTrack - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .planttree-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            display: flex;
+            gap: 20px;
+        }
+        
+        main {
+            flex: 1;
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 2rem;
+            gap: 2rem;
+        }
+        
+        h1 {
+            font-size: 50px;
+            font-weight: 800;
+        }
+        
+        p {
+            font-size: 20px;
+        }
+        
+        .planttree-button {
+            background-color: var(--primary-green);
+            border: none;
+            border-radius: 25px;
+            box-shadow: 0 0 10px 1px var(--primary-green);
+        }
+        
+        .planttree-button p {
+            font-size: 50px;
+            font-weight: 800;
+            color: white;
+            margin: 20px;
+        }
+        
+        .planttree-button:hover {
+            transform: scale(1.02);
+        }
+        /* Modal Styles */
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .modal-button {
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .confirm-btn {
+            background-color: var(--primary-green);
+            color: white;
+        }
+        
+        .cancel-btn {
+            background-color: #f0f0f0;
+        }
+        /* Certificate Styles */
+        
+        .certificate-container {
+            display: none;
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2rem;
+            background: #f9f9f9;
+            border-radius: 10px;
+        }
+        
+        .certificate-image {
+            max-width: 100%;
+            height: auto;
+            border: 10px solid #fff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin-top: 1rem;
+        }
+        
+        .download-btn {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.5rem 1.5rem;
+            background-color: var(--primary-green);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="navbar-container">
+                <a href="index.html" class="navbar-logo">
+                    <img src="images/logo.png" style="width: 50px;">
+                    <span class="logo-text">EcoTrack</span>
+                </a>
+                <div class="navbar-menu">
+                    <a href="dashboard.html" class="nav-item">Dashboard</a>
+                    <a href="events.html" class="nav-item">Events</a>
+                    <a href="community.html" class="nav-item">Community</a>
+                    <a href="eco-game.html" class="nav-item">Games</a>
+                    <a href="shop.html" class="nav-item">Shop</a>
+                    <a href="planttree.html" class="nav-item active">Plant a Tree</a>
+                </div>
+                <div class="navbar-icons">
+                    <button class="icon-btn">🔔</button>
+                    <button class="icon-btn profile-btn">👤</button>
+                </div>
+            </div>
+        </nav>
+        <!-- Main Content -->
+        <main>
+            <section class="planttree-container">
+                <section>
+                    <h1>Plant a Tree</h1>
+                    <p>EcoTrack gives everyone the opportunity to participate in ecological restoration. The funds raised are used to organize volunteer planting events in different regions of Azerbaijan by a team of activists with whom we collaborate. Trees
+                        are planted en masse in areas where there is an urgent need for them. Service users receive certificates confirming their contribution to eco-restoration. After planting, they receive an email report describing the campaign, with
+                        photos, a video, and the GPS coordinates of the restored area.</p>
+                    <br><br>
+                    <h2>Every contribution matters. Join us!</h2>
+                    <button id="plantTreeBtn" class="planttree-button"><p>Plant a Tree for <br>  1 ₼ or 50000 points</p></button>
+
+                    <!-- Confirmation Modal -->
+                    <div id="confirmationModal" class="modal">
+                        <div class="modal-content">
+                            <h2>Confirm Payment</h2>
+                            <p>Are you sure you want to proceed with planting a tree for 1 ₼ or 50,000 points?</p>
+                            <div class="modal-buttons">
+                                <button id="confirmBtn" class="modal-button confirm-btn">Yes, Plant a Tree</button>
+                                <button id="cancelBtn" class="modal-button cancel-btn">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Certificate Section -->
+                    <div id="certificateContainer" class="certificate-container">
+                        <h2>Thank you for your contribution!</h2>
+                        <p>Here's your certificate of appreciation:</p>
+                        <img src="images/sertificate.png" alt="Certificate of Appreciation" class="certificate-image">
+                        <div>
+                            <a href="images/sertificate.png" download="EcoTrack_Certificate.png" class="download-btn">Download Certificate</a>
+                        </div>
+                    </div>
+                </section>
+                <section>
+                    <img src="images/tree.png" style="width: 500px;">
+                </section>
+            </section>
+        </main>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const plantTreeBtn = document.getElementById('plantTreeBtn');
+            const confirmationModal = document.getElementById('confirmationModal');
+            const confirmBtn = document.getElementById('confirmBtn');
+            const cancelBtn = document.getElementById('cancelBtn');
+            const certificateContainer = document.getElementById('certificateContainer');
+
+            // Show confirmation modal when plant tree button is clicked
+            plantTreeBtn.addEventListener('click', function() {
+                confirmationModal.style.display = 'flex';
+            });
+
+            // Handle confirm button click
+            confirmBtn.addEventListener('click', function() {
+                confirmationModal.style.display = 'none';
+                // In a real app, you would process the payment here
+                // For now, we'll just show the certificate
+                certificateContainer.style.display = 'block';
+
+                // Scroll to certificate
+                certificateContainer.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+
+            // Handle cancel button click
+            cancelBtn.addEventListener('click', function() {
+                confirmationModal.style.display = 'none';
+            });
+
+            // Close modal when clicking outside the modal content
+            window.addEventListener('click', function(event) {
+                if (event.target === confirmationModal) {
+                    confirmationModal.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

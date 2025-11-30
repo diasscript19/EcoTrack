@@ -1,0 +1,21 @@
+{
+  "name": "ecotrack-serverless",
+  "version": "1.0.0",
+  "description": "Netlify-style serverless functions for EcoTrack (local testing).",
+  "main": "index.js",
+  "scripts": {
+    "start": "netlify dev",
+    "build": "echo \"No build step\""
+  },
+  "author": "EcoTrack",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16"
+  },
+  "dependencies": {
+    "nodemailer": "^6.9.4"
+  },
+  "devDependencies": {
+    "netlify-cli": "^9.23.0"
+  }
+}

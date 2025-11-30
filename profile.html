@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoTrack - Profile</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="app">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="navbar-container">
+                <a href="index.html" class="navbar-logo">
+                    <img src="images/logo.png" style="width: 50px;">
+                    <span class="logo-text">EcoTrack</span>
+                </a>
+                <div class="navbar-menu">
+                    <a href="dashboard.html" class="nav-item">Dashboard</a>
+                    <a href="events.html" class="nav-item">Events</a>
+                    <a href="community.html" class="nav-item">Community</a>
+                    <a href="eco-game.html" class="nav-item">Games</a>
+                    <a href="shop.html" class="nav-item">Shop</a>
+                    <a href="planttree.html" class="nav-item">Plant a Tree</a>
+                </div>
+                <div class="navbar-icons">
+                    <button class="icon-btn">🔔</button>
+                    <button class="icon-btn profile-btn">👤</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="profile-container">
+            <!-- Profile Header -->
+            <section class="profile-header">
+                <div class="profile-avatar">👩</div>
+                <div class="profile-info">
+                    <h1 id="profileName">Alex Johnson</h1>
+                    <p id="profileLevel">Eco Warrior Level 5</p>
+                    <p class="member-since">Member since Jan 2023</p>
+                </div>
+                <div class="profile-actions">
+                    <button class="btn-primary">Edit Profile</button>
+                    <button class="btn-secondary">Find New Challenge</button>
+                    <button id="logoutBtn" class="btn-logout" style="margin-left:10px; background:#ef4444; color:white; border:none; padding:8px 12px; border-radius:8px;">Logout</button>
+                </div>
+            </section>
+
+            <div class="profile-grid">
+                <!-- Left Column -->
+                <div class="profile-left">
+                    <!-- My Eco-Impact -->
+                    <section class="eco-impact">
+                        <h2>My Eco-Impact</h2>
+                        <div class="impact-stats">
+                            <div class="impact-stat">
+                                <div class="impact-value">150 kg</div>
+                                <div class="impact-label">CO2 Saved</div>
+                                <div class="impact-change">↑ 10% this month</div>
+                            </div>
+                            <div class="impact-stat">
+                                <div class="impact-value">12</div>
+                                <div class="impact-label">Trees Planted</div>
+                                <div class="impact-change">↑ 2 this month</div>
+                            </div>
+                            <div class="impact-stat">
+                                <div class="impact-value">45 kg</div>
+                                <div class="impact-label">Plastic Reduced</div>
+                                <div class="impact-change">↓ 8% this month</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- My Achievements -->
+                    <section class="achievements">
+                        <h2>My Achievements</h2>
+                        <div class="achievements-grid">
+                            <div class="achievement-badge">
+                                <span class="badge-icon">♻️</span>
+                                <span class="badge-name">Waste Reducer</span>
+                            </div>
+                        <!-- Trees Planted -->
+                        <section class="trees-planted" style="margin-bottom: 30px;">
+                            <h2>🌳 Trees Planted</h2>
+                            <div class="trees-stats" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                                <div style="background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: white; padding: 20px; border-radius: 12px; text-align: center;">
+                                    <div style="font-size: 2.5rem; font-weight: 800;" id="totalTreesPlanted">0</div>
+                                    <div style="font-size: 0.9rem; opacity: 0.9;">Trees Planted</div>
+                                </div>
+                                <div style="background: #f0fdf4; border: 2px solid #22c55e; padding: 20px; border-radius: 12px; text-align: center;">
+                                    <div style="font-size: 2.5rem; font-weight: 800; color: #22c55e;" id="totalCO2Offset">0</div>
+                                    <div style="font-size: 0.9rem; color: #6b7280;">CO₂ Offset (est.)</div>
+                                </div>
+                            </div>
+                            <div id="treePlantingHistory" style="background: #f9fafb; padding: 15px; border-radius: 8px; max-height: 200px; overflow-y: auto;">
+                                <!-- Trees will be listed here dynamically -->
+                            </div>
+                        </section>
+
+                        <!-- My Achievements -->
+                        <section class="achievements">
+                            <h2>My Achievements</h2>
+                            <div class="achievements-grid">
+                                <div class="achievement-badge">
+                                <span class="badge-icon">⚡</span>
+                                <span class="badge-name">Energy Saver</span>
+                            </div>
+                            <div class="achievement-badge">
+                                <span class="badge-icon">🌱</span>
+                                <span class="badge-name">Green Commute</span>
+                            </div>
+                            <div class="achievement-badge">
+                                <span class="badge-icon">🌳</span>
+                                <span class="badge-name">Tree Planter</span>
+                            </div>
+                            <div class="achievement-badge">
+                                <span class="badge-icon">💧</span>
+                                <span class="badge-name">Water Wise</span>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Right Column -->
+                <div class="profile-right">
+                    <!-- Progress to Next Level -->
+                    <section class="next-level">
+                        <h2>Progress to Next Level</h2>
+                        <div class="level-progress">
+                            <div class="level-text">1000 / 2000 XP</div>
+                            <div class="level-bar">
+                                <div class="level-fill" style="width: 50%"></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Completed Challenges -->
+                    <section class="completed-challenges">
+                        <h2>Completed Challenges</h2>
+                        <div class="challenge-item">
+                            <span class="challenge-icon">✓</span>
+                            <div class="challenge-info">
+                                <div class="challenge-name">30-Day Vegan Challenge</div>
+                                <div class="challenge-date">Completed: 10 Mar 2024</div>
+                                <div class="challenge-xp">+250 XP</div>
+                            </div>
+                        </div>
+                        <div class="challenge-item">
+                            <span class="challenge-icon">✓</span>
+                            <div class="challenge-info">
+                                <div class="challenge-name">No Plastic Week</div>
+                                <div class="challenge-date">Completed: 28 Feb 2024</div>
+                                <div class="challenge-xp">+180 XP</div>
+                            </div>
+                        </div>
+                        <div class="challenge-item">
+                            <span class="challenge-icon">✓</span>
+                            <div class="challenge-info">
+                                <div class="challenge-name">Community Cleanup</div>
+                                <div class="challenge-date">Completed: 03 Feb 2024</div>
+                                <div class="challenge-xp">+200 XP</div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

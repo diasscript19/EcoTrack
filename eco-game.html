@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco Quest - Educational Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="games.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="navbar-logo">
+                <img src="images/logo.png" style="width: 50px;">
+                <span class="logo-text">EcoTrack</span>
+            </a>
+            <div class="navbar-menu">
+                <a href="dashboard.html" class="nav-item">Dashboard</a>
+                <a href="events.html" class="nav-item">Events</a>
+                <a href="community.html" class="nav-item">Community</a>
+                <a href="eco-game.html" class="nav-item active">Games</a>
+                <a href="shop.html" class="nav-item">Shop</a>
+                    <a href="planttree.html" class="nav-item">Plant a Tree</a>
+            </div>
+            <div class="navbar-icons">
+                <button class="icon-btn">🔔</button>
+                <button class="icon-btn profile-btn">👤</button>
+            </div>
+        </div>
+    </nav>
+    <div class="game-container">
+        <!-- Header -->
+        <div class="game-header">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1 style="margin: 0;">🌱 Eco Games</h1>
+                    <p style="margin: 0;">Learn about ecology while having fun!</p>
+                </div>
+                <a href="index.html" style="background: rgba(255,255,255,0.2); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; display: inline-block;">← Back to Dashboard</a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="game-content">
+            <!-- Game Mode Selection -->
+            <div class="game-mode-selection" id="modeSelection">
+                <div class="game-mode-card" onclick="startGame('quiz')">
+                    <div class="game-mode-icon">🧠</div>
+                    <h3>Ecology Quiz</h3>
+                    <p>Test your knowledge about the environment</p>
+                </div>
+                <div class="game-mode-card" onclick="startGame('sorting')">
+                    <div class="game-mode-icon">♻️</div>
+                    <h3>Trash Sorting</h3>
+                    <p>Sort waste into correct categories</p>
+                </div>
+                <div class="game-mode-card" onclick="startGame('carbon')">
+                    <div class="game-mode-icon">💨</div>
+                    <h3>Carbon Calc</h3>
+                    <p>Calculate your carbon footprint</p>
+                </div>
+            </div>
+
+            <!-- Quiz Game -->
+            <div class="quiz-section" id="quizSection">
+                <div class="score-display">
+                    <h3>Score: <span id="quizScore">0</span> / 100</h3>
+                </div>
+                <div class="quiz-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="quizProgress"></div>
+                    </div>
+                    <div class="progress-text">Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span></div>
+                </div>
+                <div class="quiz-question">
+                    <h2 id="questionText"></h2>
+                    <div class="quiz-options" id="optionsContainer"></div>
+                </div>
+                <button class="btn-game" onclick="nextQuestion()">Next Question</button>
+            </div>
+
+            <!-- Sorting Game -->
+            <div class="sorting-section" id="sortingSection">
+                <div class="score-display">
+                    <h3>Correct: <span id="sortingScore">0</span> / 8</h3>
+                </div>
+                <div class="sorting-info">
+                    <p>Drag items to the correct recycling bins!</p>
+                </div>
+                <div class="sorting-categories">
+                    <div class="category-bin organic" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <div class="category-icon">🌿</div>
+                        <div class="category-name">Organic</div>
+                        <div class="category-count" id="organicCount">0</div>
+                    </div>
+                    <div class="category-bin plastic" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <div class="category-icon">🧴</div>
+                        <div class="category-name">Plastic</div>
+                        <div class="category-count" id="plasticCount">0</div>
+                    </div>
+                    <div class="category-bin glass" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <div class="category-icon">🍾</div>
+                        <div class="category-name">Glass</div>
+                        <div class="category-count" id="glassCount">0</div>
+                    </div>
+                    <div class="category-bin metal" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <div class="category-icon">🥫</div>
+                        <div class="category-name">Metal</div>
+                        <div class="category-count" id="metalCount">0</div>
+                    </div>
+                </div>
+                <h3 style="margin-bottom: 15px;">Unsorted Items:</h3>
+                <div class="sorting-items" id="itemsContainer"></div>
+                <button class="btn-game" onclick="checkSorting()">Check Results</button>
+            </div>
+
+            <!-- Carbon Calculator -->
+            <div class="carbon-section" id="carbonSection">
+                <div class="calculator-form">
+                    <div class="form-group">
+                        <label>Transportation (km per week)</label>
+                        <input type="number" id="transport" value="50" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Electricity Usage (kWh per month)</label>
+                        <input type="number" id="electricity" value="300" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Diet Type</label>
+                        <select id="diet">
+                            <option value="0.5">Vegan</option>
+                            <option value="1">Vegetarian</option>
+                            <option value="1.5">Mixed Diet</option>
+                            <option value="2">High Meat Diet</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Waste Generated (kg per month)</label>
+                        <input type="number" id="waste" value="20" min="0">
+                    </div>
+                    <button class="btn-game" onclick="calculateCarbon()">Calculate My Carbon Footprint</button>
+                </div>
+                <div id="carbonResult" style="display: none;">
+                    <div class="carbon-result">
+                        <p>Your Monthly Carbon Footprint:</p>
+                        <div class="carbon-value" id="carbonValue">0</div>
+                        <div class="carbon-unit">kg CO₂ per month</div>
+                        <div style="margin-top: 20px; font-size: 0.95rem; opacity: 0.9;">
+                            <p id="carbonTip"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Modal -->
+    <div class="results-modal" id="resultsModal">
+        <div class="results-content">
+            <h2 id="resultTitle">Great Job!</h2>
+            <p id="resultMessage"></p>
+            <div class="results-stats" id="resultStats"></div>
+            <div class="results-buttons">
+                <button class="btn-result btn-result-primary" onclick="restartGame()">Play Again</button>
+                <button class="btn-result btn-result-secondary" onclick="backToMenu()">Back to Menu</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Quiz Questions
+        const quizQuestions = [
+            {
+                question: "Which gas is primarily responsible for global warming?",
+                options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Hydrogen"],
+                correct: 1
+            },
+            {
+                question: "How much of Earth's oxygen is produced by the ocean?",
+                options: ["10%", "25%", "50%", "70%"],
+                correct: 2
+            },
+            {
+                question: "What is the process by which plants make their own food?",
+                options: ["Photosynthesis", "Respiration", "Fermentation", "Digestion"],
+                correct: 0
+            },
+            {
+                question: "Which of these is a renewable energy source?",
+                options: ["Coal", "Natural Gas", "Solar Power", "Oil"],
+                correct: 2
+            },
+            {
+                question: "What percentage of plastic waste is recycled globally?",
+                options: ["5%", "15%", "35%", "65%"],
+                correct: 1
+            }
+        ];
+
+        // Trash Items for Sorting
+        const trashItems = [
+            { name: "Apple Core", category: "organic", icon: "🍎" },
+            { name: "Plastic Bottle", category: "plastic", icon: "🧴" },
+            { name: "Glass Jar", category: "glass", icon: "🍾" },
+            { name: "Aluminum Can", category: "metal", icon: "🥫" },
+            { name: "Banana Peel", category: "organic", icon: "🍌" },
+            { name: "Plastic Bag", category: "plastic", icon: "👜" },
+            { name: "Wine Bottle", category: "glass", icon: "🍷" },
+            { name: "Tin Foil", category: "metal", icon: "📦" }
+        ];
+
+        let currentGame = null;
+        let currentQuestionIndex = 0;
+        let quizScore = 0;
+        let sortingCorrect = 0;
+
+        // Start Game
+        function startGame(game) {
+            currentGame = game;
+            document.getElementById('modeSelection').style.display = 'none';
+
+            if (game === 'quiz') {
+                startQuiz();
+            } else if (game === 'sorting') {
+                startSorting();
+            } else if (game === 'carbon') {
+                startCarbon();
+            }
+        }
+
+        // Quiz Functions
+        function startQuiz() {
+            document.getElementById('quizSection').classList.add('active');
+            currentQuestionIndex = 0;
+            quizScore = 0;
+            document.getElementById('totalQuestions').textContent = quizQuestions.length;
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            const question = quizQuestions[currentQuestionIndex];
+            document.getElementById('questionText').textContent = question.question;
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+
+            question.options.forEach((option, index) => {
+                const button = document.createElement('div');
+                button.className = 'quiz-option';
+                button.textContent = option;
+                button.onclick = () => selectOption(index, question.correct);
+                optionsContainer.appendChild(button);
+            });
+
+            updateQuizProgress();
+        }
+
+        function selectOption(selectedIndex, correctIndex) {
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach((opt, index) => {
+                opt.onclick = null;
+                if (index === correctIndex) {
+                    opt.classList.add('correct');
+                } else if (index === selectedIndex && selectedIndex !== correctIndex) {
+                    opt.classList.add('incorrect');
+                }
+            });
+
+            if (selectedIndex === correctIndex) {
+                quizScore += 20;
+            }
+
+            document.getElementById('quizScore').textContent = quizScore;
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizQuestions.length) {
+                displayQuestion();
+            } else {
+                endQuiz();
+            }
+        }
+
+        function updateQuizProgress() {
+            const progress = ((currentQuestionIndex + 1) / quizQuestions.length) * 100;
+            document.getElementById('quizProgress').style.width = progress + '%';
+        }
+
+        function endQuiz() {
+            const earnedPoints = quizScore * 10; // Convert score to points
+            addUserPoints(earnedPoints);
+            showResults('Quiz Complete!', `You scored ${quizScore} points!\n🌟 Earned ${earnedPoints} EcoPoints!`, [
+                { label: 'Score', value: quizScore + ' / 100' },
+                { label: 'Correct Answers', value: (quizScore / 20) + ' / 5' },
+                { label: 'EcoPoints Earned', value: earnedPoints }
+            ]);
+            document.getElementById('quizSection').classList.remove('active');
+        }
+
+        // Sorting Functions
+        function startSorting() {
+            document.getElementById('sortingSection').classList.add('active');
+            sortingCorrect = 0;
+            displaySortingItems();
+        }
+
+        function displaySortingItems() {
+            const container = document.getElementById('itemsContainer');
+            container.innerHTML = '';
+
+            trashItems.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'trash-item';
+                itemDiv.draggable = true;
+                itemDiv.id = 'item-' + index;
+                itemDiv.innerHTML = `<div class="trash-icon">${item.icon}</div><div class="trash-name">${item.name}</div>`;
+                itemDiv.dataset.category = item.category;
+
+                itemDiv.addEventListener('dragstart', dragStart);
+                itemDiv.addEventListener('dragend', dragEnd);
+
+                container.appendChild(itemDiv);
+            });
+        }
+
+        function dragStart(e) {
+            e.dataTransfer.effectAllowed = 'move';
+            e.target.classList.add('dragging');
+        }
+
+        function dragEnd(e) {
+            e.target.classList.remove('dragging');
+        }
+
+        function allowDrop(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+        }
+
+        function drop(e) {
+            e.preventDefault();
+            const dragged = document.querySelector('.trash-item.dragging');
+            const categoryName = e.target.closest('.category-bin').querySelector('.category-name').textContent.toLowerCase();
+            const itemCategory = dragged.dataset.category;
+
+            if (itemCategory === categoryName) {
+                dragged.classList.add('sorted');
+                sortingCorrect++;
+                updateSortingCount(categoryName);
+            } else {
+                alert('Wrong category! Try again.');
+            }
+        }
+
+        function updateSortingCount(category) {
+            const count = document.querySelectorAll(`.trash-item.sorted[data-category="${category}"]`).length;
+            document.getElementById(category + 'Count').textContent = count;
+            document.getElementById('sortingScore').textContent = sortingCorrect;
+        }
+
+        function checkSorting() {
+            const totalCorrect = document.querySelectorAll('.trash-item.sorted').length;
+            const percentage = Math.round((totalCorrect / trashItems.length) * 100);
+            const earnedPoints = totalCorrect * 125; // 125 points per correct item
+
+            addUserPoints(earnedPoints);
+
+            showResults(
+                'Sorting Complete!',
+                'You correctly sorted ' + totalCorrect + ' out of ' + trashItems.length + ' items!\n🌟 Earned ' + earnedPoints + ' EcoPoints!',
+                [
+                    { label: 'Correct Items', value: totalCorrect + ' / ' + trashItems.length },
+                    { label: 'Accuracy', value: percentage + '%' },
+                    { label: 'EcoPoints Earned', value: earnedPoints }
+                ]
+            );
+            document.getElementById('sortingSection').classList.remove('active');
+        }
+
+        // Carbon Calculator Functions
+        function startCarbon() {
+            document.getElementById('carbonSection').classList.add('active');
+        }
+
+        function calculateCarbon() {
+            const transport = parseFloat(document.getElementById('transport').value) || 0;
+            const electricity = parseFloat(document.getElementById('electricity').value) || 0;
+            const diet = parseFloat(document.getElementById('diet').value) || 0;
+            const waste = parseFloat(document.getElementById('waste').value) || 0;
+
+            // Calculate carbon emissions (simplified)
+            const transportCO2 = (transport * 0.21) / 4.33; // km to CO2
+            const electricityCO2 = electricity * 0.4; // kWh to CO2
+            const dietCO2 = diet * 30; // monthly estimate
+            const wasteCO2 = waste * 0.5; // waste to CO2
+
+            const total = transportCO2 + electricityCO2 + dietCO2 + wasteCO2;
+
+            document.getElementById('carbonValue').textContent = total.toFixed(1);
+            document.getElementById('carbonResult').style.display = 'block';
+
+            // Provide tip
+            let tip = '';
+            if (total > 300) {
+                tip = '💡 Try reducing your transportation, electricity usage, or switching to a plant-based diet to lower your carbon footprint!';
+            } else if (total > 150) {
+                tip = '✓ Good! Consider small changes like using renewable energy or carpooling to further reduce your impact.';
+            } else {
+                tip = '🌟 Excellent! You have a low carbon footprint. Keep up your sustainable practices!';
+            }
+
+            document.getElementById('carbonTip').textContent = tip;
+
+            // Award points for completing calculator
+            const earnedPoints = 200;
+            addUserPoints(earnedPoints);
+
+            // Show results after brief delay
+            setTimeout(() => {
+                showResults(
+                    'Carbon Footprint Calculated!',
+                    'Great job calculating your carbon footprint!\n🌟 Earned ' + earnedPoints + ' EcoPoints!',
+                    [
+                        { label: 'Carbon Footprint', value: total.toFixed(1) + ' kg CO₂/month' },
+                        { label: 'EcoPoints Earned', value: earnedPoints }
+                    ]
+                );
+                document.getElementById('carbonSection').classList.remove('active');
+            }, 500);
+        }
+
+        // Results Modal
+        function showResults(title, message, stats) {
+            document.getElementById('resultTitle').textContent = title;
+            document.getElementById('resultMessage').textContent = message;
+
+            const statsHTML = stats.map(stat => `
+                <div class="stat-item">
+                    <div>
+                        <span class="stat-label">${stat.label}</span>
+                        <span class="stat-value">${stat.value}</span>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('resultStats').innerHTML = statsHTML;
+            document.getElementById('resultsModal').classList.add('active');
+        }
+
+        function restartGame() {
+            document.getElementById('resultsModal').classList.remove('active');
+            startGame(currentGame);
+        }
+
+        function backToMenu() {
+            document.getElementById('resultsModal').classList.remove('active');
+            document.getElementById('quizSection').classList.remove('active');
+            document.getElementById('sortingSection').classList.remove('active');
+            document.getElementById('carbonSection').classList.remove('active');
+            document.getElementById('carbonResult').style.display = 'none';
+            document.getElementById('modeSelection').style.display = 'grid';
+        }
+
+        // Points Management System
+        function addUserPoints(points) {
+            const currentPoints = parseInt(localStorage.getItem('userPoints')) || 1500;
+            const newTotal = currentPoints + points;
+            localStorage.setItem('userPoints', newTotal);
+            console.log('Added ' + points + ' points. Total: ' + newTotal);
+        }
+
+        function getUserPoints() {
+            return parseInt(localStorage.getItem('userPoints')) || 1500;
+        }
+
+        function plantTree() {
+            const points = getUserPoints();
+            if (points >= 1000) {
+                const newPoints = points - 1000;
+                localStorage.setItem('userPoints', newPoints);
+                
+                // Add tree to plants array
+                const plants = JSON.parse(localStorage.getItem('plantsPlanted')) || [];
+                plants.push({
+                    date: new Date().toLocaleDateString(),
+                    points: 1000
+                });
+                localStorage.setItem('plantsPlanted', JSON.stringify(plants));
+                
+                alert('🌱 Congratulations!\n\nYou planted a seed! 🌳\n\nPoints spent: 1000\nRemaining points: ' + newPoints);
+                return true;
+            } else {
+                alert('❌ Not enough points!\n\nYou need 1000 points to plant a tree.\nCurrent points: ' + points);
+                return false;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoTrack - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Toastify CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+</head>
+
+<body>
+    <div class="app">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="navbar-container">
+                <a href="index.html" class="navbar-logo">
+                    <img src="images/logo.png" style="width: 50px;">
+                    <span class="logo-text">EcoTrack</span>
+                </a>
+                <div class="navbar-menu">
+                    <a href="dashboard.html" class="nav-item">Dashboard</a>
+                    <a href="events.html" class="nav-item">Events</a>
+                    <a href="community.html" class="nav-item">Community</a>
+                    <a href="eco-game.html" class="nav-item">Games</a>
+                    <a href="shop.html" class="nav-item">Shop</a>
+                    <a href="planttree.html" class="nav-item">Plant a Tree</a>
+                </div>
+                <div class="navbar-icons">
+                    <button class="icon-btn">🔔</button>
+                    <button class="icon-btn profile-btn">👤</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="dashboard-container">
+            <!-- Welcome Section -->
+            <section class="welcome-section">
+                <h1>Hello, Alex!</h1>
+            </section>
+
+            <!-- Gemini API Key Configuration -->
+            <div style="display: none;" id="api-config">
+                <!-- Replace YOUR_GEMINI_API_KEY_HERE with your actual Gemini API key -->
+                <!-- Get your free API key at: https://ai.google.dev/tutorials/setup -->
+            </div>
+
+            <!-- Stats Cards -->
+            <section class="stats-grid">
+                <div class="stat-card">
+                    <h3>Your Carbon Footprint</h3>
+                    <div class="stat-value">85 kg CO2</div>
+                    <div class="stat-change positive">↓ +3% vs last month</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Activities Logged</h3>
+                    <div class="stat-value">12 This Week</div>
+                    <div class="stat-change">Great job!</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Active Goals</h3>
+                    <div class="stat-value">3</div>
+                    <div class="stat-change positive">Keep going!</div>
+                </div>
+            </section>
+
+            <div class="dashboard-grid">
+                <!-- Left Column -->
+                <div class="left-column">
+                    <!-- Progress Section -->
+                    <section class="progress-section">
+                        <h2>Your Progress</h2>
+
+                        <div class="progress-item">
+                            <div class="progress-label">Reduce Waste by 20%</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 80%"></div>
+                            </div>
+                            <div class="progress-value">80%</div>
+                        </div>
+
+                        <div class="progress-item">
+                            <div class="progress-label">Cycle 250km This Week</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 60%"></div>
+                            </div>
+                            <div class="progress-value">60%</div>
+                            <div class="progress-detail">125 km cycled</div>
+                        </div>
+                    </section>
+
+                    <!-- Get Started Section -->
+                    <section class="get-started-section">
+                        <h2>Get Started</h2>
+                        <div class="get-started-grid">
+                            <button class="action-btn">
+                                <span class="btn-icon">📊</span>
+                                <span>Log Activity</span>
+                            </button>
+                            <button class="action-btn">
+                                <span class="btn-icon">🎯</span>
+                                <span>Set New Goal</span>
+                            </button>
+                            <button class="action-btn">
+                                <span class="btn-icon">📝</span>
+                                <span>Take a Quiz</span>
+                            </button>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Right Column -->
+                <div class="right-column">
+                    <!-- Recent Activities -->
+                    <section class="recent-activities">
+                        <h2>Recent Activities</h2>
+                        <div class="activity-item">
+                            <span class="activity-icon">🚴</span>
+                            <div class="activity-info">
+                                <div class="activity-name">Cycle Ride</div>
+                                <div class="activity-time">2 hours ago</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <span class="activity-icon">🥗</span>
+                            <div class="activity-info">
+                                <div class="activity-name">Ate a vegetarian meal</div>
+                                <div class="activity-time">5 hours ago</div>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <span class="activity-icon">♻️</span>
+                            <div class="activity-info">
+                                <div class="activity-name">Recycled plastics</div>
+                                <div class="activity-time">2 days ago</div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Today's Tip -->
+                    <section class="today-tip">
+                        <div class="tip-header">📍 Today's Tip</div>
+                        <p>Unplug chargers when not in use. They use phantom power, often called "vampire power". Use a power strip to control multiple devices at once.</p>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <!-- Toastify JS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+</body>
+
+</html>

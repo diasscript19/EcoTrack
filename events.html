@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoTrack - Baku Community Events & Challenges</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="navbar-container">
+                <a href="index.html" class="navbar-logo">
+                    <img src="images/logo.png" style="width: 50px;">
+                    <span class="logo-text">EcoTrack</span>
+                </a>
+                <div class="navbar-menu">
+                    <a href="dashboard.html" class="nav-item">Dashboard</a>
+                    <a href="events.html" class="nav-item active">Events</a>
+                    <a href="community.html" class="nav-item">Community</a>
+                    <a href="eco-game.html" class="nav-item">Games</a>
+                    <a href="shop.html" class="nav-item">Shop</a>
+                    <a href="planttree.html" class="nav-item">Plant a Tree</a>
+                </div>
+                <div class="navbar-icons">
+                    <button class="icon-btn">🔔</button>
+                    <button class="icon-btn profile-btn">👤</button>
+                </div>
+            </div>
+        </nav>
+        <!-- Main Content -->
+        <main class="events-container">
+            <div class="events-header">
+                <h1>Baku Eco Events & Challenges</h1>
+                <p>Join the Baku community in making a positive environmental impact. Discover local events, participate in challenges, and connect with fellow eco-enthusiasts in Azerbaijan.</p>
+            </div>
+            <!-- Calendar Section -->
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <button id="prev-month">❮</button>
+                    <h2 id="current-month-year">November 2024</h2>
+                    <button id="next-month">❯</button>
+                </div>
+                <div class="weekdays">
+                    <div>Sun</div>
+                    <div>Mon</div>
+                    <div>Tue</div>
+                    <div>Wed</div>
+                    <div>Thu</div>
+                    <div>Fri</div>
+                    <div>Sat</div>
+                </div>
+                <div class="days" id="calendar-days">
+                    <!-- Calendar days will be populated by JavaScript -->
+                </div>
+            </div>
+            <div id="day-events" class="day-events"></div>
+            <!-- Search and Filters -->
+            <div class="search-section">
+                <input type="text" class="search-input" placeholder="Search for events by keyword...">
+                <button class="btn-suggest">Suggest an Event</button>
+            </div>
+            <div class="filters-section">
+                <select class="filter-select">
+                    <option>Event Type</option>
+                    <option>Cleanup</option>
+                    <option>Planting</option>
+                    <option>Education</option>
+                </select>
+                <select class="filter-select">
+                    <option>Date Range</option>
+                    <option>This Week</option>
+                    <option>This Month</option>
+                    <option>This Year</option>
+                </select>
+                <select class="filter-select">
+                    <option>Location</option>
+                    <option>Near Me</option>
+                    <option>Baku</option>
+                    <option>Sumgait</option>
+                    <option>Ganja</option>
+                </select>
+            </div>
+            <!-- Upcoming Events -->
+            <section class="upcoming-events">
+                <h2>Upcoming Events</h2>
+                <div class="events-grid">
+                    <div class="event-card">
+                        <div class="event-image" style="background-image: url('https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60')"></div>
+                        <div class="event-content">
+                            <h3>Baku Green Initiative Tree Planting</h3>
+                            <div class="event-date">📅 Sat, Dec 07, 2024 · 9:00 AM</div>
+                            <div class="event-location">📍 Highland Park, Baku</div>
+                            <p>Join us for our monthly tree planting event. Help make Baku greener, one tree at a time!</p>
+                            <div class="event-actions">
+                                <button class="btn-primary">RSVP Now</button>
+                                <button class="btn-secondary">Save Event</button>
+                                <button class="btn-secondary">Share</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event-card">
+                        <div class="event-image" style="background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60')"></div>
+                        <div class="event-content">
+                            <h3>Baku Boulevard Cleanup</h3>
+                            <div class="event-date">📅 Sun, Nov 10, 2024 · 10:00 AM</div>
+                            <div class="event-location">📍 Baku Boulevard, Seaside Park</div>
+                            <p>Help us keep Baku's iconic boulevard clean. All necessary equipment will be provided.</p>
+                            <div class="event-actions">
+                                <button class="btn-primary">Register Now</button>
+                                <button class="btn-secondary">Save Event</button>
+                                <button class="btn-secondary">Share</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event-card">
+                        <div class="event-image" style="background-image: url('https://images.unsplash.com/photo-1579389083078-4e7018379f0e?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60')"></div>
+                        <div class="event-content">
+                            <h3>Eco-Friendly Baku Webinar</h3>
+                            <div class="event-badge">Online Webinar</div>
+                            <div class="event-date">📅 Wed, Nov 20, 2024 · 7:00 PM</div>
+                            <div class="event-location">💻 Online (Azerbaijani/Russian)</div>
+                            <p>Learn how to implement sustainable practices in Baku's urban environment. Special focus on local recycling programs.</p>
+                            <button class="btn-secondary">Register Now</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Pagination -->
+                <div class="pagination">
+                    <button class="pagination-btn">‹</button>
+                    <button class="pagination-btn active">1</button>
+                    <button class="pagination-btn">2</button>
+                    <button class="pagination-btn">3</button>
+                    <button class="pagination-btn">›</button>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Calendar functionality
+            const calendarDays = document.getElementById('calendar-days');
+            const currentMonthYear = document.getElementById('current-month-year');
+            const prevMonthBtn = document.getElementById('prev-month');
+            const nextMonthBtn = document.getElementById('next-month');
+            let currentDate = new Date();
+            let selectedDate = new Date();
+            // Event data with specific dates
+            const events = [{
+                date: '2024-11-10',
+                title: 'Baku Boulevard Cleanup'
+            }, {
+                date: '2024-11-15',
+                title: 'Eco Workshop'
+            }, {
+                date: '2024-11-20',
+                title: 'Eco-Friendly Baku Webinar'
+            }, {
+                date: '2024-12-07',
+                title: 'Baku Green Initiative'
+            }];
+
+            // Recurring annual environmental dates (month: 1-12)
+            const recurringEvents = [
+                { month: 1, day: 11, title: 'День заповедников и национальных парков' },
+                { month: 2, day: 2, title: 'Всемирный день водно-болотных угодий' },
+                { month: 2, day: 27, title: 'День полярного медведя' },
+                { month: 3, day: 3, title: 'Всемирный день дикой природы' },
+                { month: 3, day: 21, title: 'Международный день лесов' },
+                { month: 3, day: 22, title: 'Всемирный день водных ресурсов' },
+                { month: 3, day: 23, title: 'Всемирный метеорологический день' },
+                { month: 3, day: 31, title: 'Час Земли (последняя суббота марта)' },
+                { month: 4, day: 7, title: 'Всемирный день здоровья' },
+                { month: 4, day: 22, title: 'День Земли' },
+                { month: 4, day: 26, title: 'День памяти Чернобыльской трагедии' },
+                { month: 5, day: 10, title: 'Всемирный день перелётных птиц' },
+                { month: 5, day: 15, title: 'День климата' },
+                { month: 5, day: 22, title: 'Международный день биологического разнообразия' },
+                { month: 6, day: 5, title: 'Всемирный день окружающей среды' },
+                { month: 6, day: 8, title: 'Всемирный день океанов' },
+                { month: 6, day: 17, title: 'День борьбы с опустыниванием и засухой' },
+                { month: 7, day: 3, title: 'Международный день отказа от пластиковых пакетов' },
+                { month: 7, day: 15, title: 'День защиты леса' },
+                { month: 7, day: 28, title: 'День сохранения природы' },
+                { month: 8, day: 12, title: 'Международный день молодёжи (эко-волонтёрство)' },
+                { month: 8, day: 29, title: 'День против ядерных испытаний' },
+                { month: 9, day: 16, title: 'День защиты озонового слоя' },
+                { month: 9, day: 22, title: 'Всемирный день без автомобиля' },
+                { month: 9, day: 30, title: 'Всемирный день морей (последняя суббота сентября)' },
+                { month: 10, day: 4, title: 'Всемирный день защиты животных' },
+                { month: 10, day: 16, title: 'Всемирный день питания' },
+                { month: 11, day: 6, title: 'День предотвращения эксплуатации окружающей среды во время войны' },
+                { month: 11, day: 21, title: 'Всемирный день рыб' },
+                { month: 12, day: 5, title: 'Международный день почв' },
+                { month: 12, day: 11, title: 'Международный день гор' }
+            ];
+            // Initialize calendar
+            function renderCalendar() {
+                // Clear previous calendar
+                calendarDays.innerHTML = '';
+                // Set month and year in header
+                currentMonthYear.textContent = new Intl.DateTimeFormat('en-US', {
+                    month: 'long',
+                    year: 'numeric'
+                }).format(currentDate);
+                // Get first day of month and total days
+                const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+                const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+                const daysInMonth = lastDay.getDate();
+                const startingDay = firstDay.getDay();
+                // Add empty cells for days before first day of month
+                for (let i = 0; i < startingDay; i++) {
+                    const dayElement = document.createElement('div');
+                    dayElement.classList.add('day', 'other-month');
+                    const prevMonthDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), -startingDay + i + 1);
+                    dayElement.textContent = prevMonthDay.getDate();
+                    calendarDays.appendChild(dayElement);
+                }
+                // Add days of current month
+                const today = new Date();
+                for (let i = 1; i <= daysInMonth; i++) {
+                    const dayElement = document.createElement('div');
+                    dayElement.classList.add('day');
+                    dayElement.textContent = i;
+                    // Highlight today
+                    if (i === today.getDate() &&
+                        currentDate.getMonth() === today.getMonth() &&
+                        currentDate.getFullYear() === today.getFullYear()) {
+                        dayElement.classList.add('today');
+                    }
+                    // Highlight selected date
+                    if (i === selectedDate.getDate() &&
+                        currentDate.getMonth() === selectedDate.getMonth() &&
+                        currentDate.getFullYear() === selectedDate.getFullYear()) {
+                        dayElement.classList.add('selected');
+                    }
+                    // Check if day has events (specific dates + recurring annual events)
+                    const currentDateStr = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                    const specificEventsToday = events.filter(event => event.date === currentDateStr);
+                    const recurringEventsToday = recurringEvents.filter(ev => ev.month === (currentDate.getMonth() + 1) && ev.day === i);
+                    const allEventsToday = [...specificEventsToday, ...recurringEventsToday];
+                    if (allEventsToday.length) {
+                        dayElement.classList.add('has-event');
+                        dayElement.title = allEventsToday.map(e => e.title).join('; ');
+                    }
+                    // Add click event
+                    dayElement.addEventListener('click', () => {
+                        selectedDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), i);
+                        renderCalendar();
+                        filterEventsByDate(selectedDate);
+                    });
+                    calendarDays.appendChild(dayElement);
+                }
+                // Add empty cells for days after last day of month
+                const totalCells = startingDay + daysInMonth;
+                const remainingCells = 7 - (totalCells % 7);
+                if (remainingCells < 7) { // Only add if not already a complete row
+                    for (let i = 1; i <= remainingCells; i++) {
+                        const dayElement = document.createElement('div');
+                        dayElement.classList.add('day', 'other-month');
+                        const nextMonthDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, i);
+                        dayElement.textContent = nextMonthDay.getDate();
+                        calendarDays.appendChild(dayElement);
+                    }
+                }
+            }
+            // Show events for the selected date (specific + recurring)
+            function filterEventsByDate(date) {
+                const dayEventsContainer = document.getElementById('day-events');
+                if (!date) {
+                    dayEventsContainer.innerHTML = '';
+                    return;
+                }
+                const dateStr = date.toISOString().split('T')[0];
+                const specific = events.filter(e => e.date === dateStr);
+                const recurring = recurringEvents.filter(e => e.month === (date.getMonth() + 1) && e.day === date.getDate());
+                const all = [...specific, ...recurring];
+                if (all.length === 0) {
+                    dayEventsContainer.innerHTML = `<p style="padding:10px">Нет событий на выбранную дату.</p>`;
+                } else {
+                    const list = document.createElement('div');
+                    list.className = 'day-events-list';
+                    all.forEach(ev => {
+                        const item = document.createElement('div');
+                        item.className = 'day-event-item';
+                        const label = document.createElement('div');
+                        label.className = 'day-event-title';
+                        label.textContent = ev.title;
+                        const meta = document.createElement('div');
+                        meta.className = 'day-event-meta';
+                        if (ev.date) {
+                            meta.textContent = `Specific date: ${ev.date}`;
+                        } else {
+                            meta.textContent = `Annual`;
+                        }
+                        item.appendChild(label);
+                        item.appendChild(meta);
+                        list.appendChild(item);
+                    });
+                    dayEventsContainer.innerHTML = '';
+                    dayEventsContainer.appendChild(list);
+                }
+            }
+            // Navigation between months
+            prevMonthBtn.addEventListener('click', () => {
+                currentDate.setMonth(currentDate.getMonth() - 1);
+                renderCalendar();
+            });
+            nextMonthBtn.addEventListener('click', () => {
+                currentDate.setMonth(currentDate.getMonth() + 1);
+                renderCalendar();
+            });
+            // Initialize the calendar
+            renderCalendar();
+            // Event registration functionality
+            const registerButtons = document.querySelectorAll('.btn-primary, .btn-secondary');
+            registerButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const eventCard = this.closest('.event-card');
+                    const eventTitle = eventCard.querySelector('h3').textContent;
+                    if (this.textContent.includes('RSVP') || this.textContent.includes('Register')) {
+                        this.textContent = 'Registered!';
+                        this.classList.add('registered');
+                        this.disabled = true;
+                        showNotification(`Successfully registered for ${eventTitle}!`);
+                    } else if (this.textContent === 'Save Event') {
+                        this.textContent = 'Saved!';
+                        showNotification('Event saved to your profile');
+                    } else if (this.textContent === 'Share') {
+                        shareEvent(eventTitle, window.location.href);
+                    }
+                });
+            });
+            // Search functionality
+            const searchInput = document.querySelector('.search-input');
+            searchInput.addEventListener('input', filterEvents);
+            // Filter functionality
+            const filterSelects = document.querySelectorAll('.filter-select');
+            filterSelects.forEach(select => {
+                select.addEventListener('change', function() {
+                    filterEvents();
+                    // Reset calendar selection when using other filters
+                    selectedDate = null;
+                    renderCalendar();
+                });
+            });
+            // Pagination
+            const paginationButtons = document.querySelectorAll('.pagination-btn');
+            paginationButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // In a real app, this would load more events
+                    const currentActive = document.querySelector('.pagination-btn.active');
+                    if (currentActive) {
+                        currentActive.classList.remove('active');
+                    }
+                    this.classList.add('active');
+                });
+            });
+            // Helper functions
+            function filterEvents() {
+                const searchTerm = document.querySelector('.search-input').value.toLowerCase();
+                const locationFilter = document.querySelectorAll('.filter-select')[2].value;
+                const eventCards = document.querySelectorAll('.event-card');
+                let visibleCount = 0;
+                eventCards.forEach(card => {
+                    const title = card.querySelector('h3').textContent.toLowerCase();
+                    const location = card.querySelector('.event-location').textContent;
+                    const matchesSearch = title.includes(searchTerm);
+                    const matchesLocation = locationFilter === 'Location' ||
+                        location.includes(locationFilter) ||
+                        locationFilter === 'Near Me';
+                    if (matchesSearch && matchesLocation) {
+                        card.style.display = '';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                // Show message if no events match filters
+                const noResults = document.querySelector('.no-results') ||
+                    document.createElement('div');
+                if (visibleCount === 0) {
+                    noResults.className = 'no-results';
+                    noResults.textContent = 'No events match your filters. Try adjusting your search criteria.';
+                    document.querySelector('.events-grid').appendChild(noResults);
+                } else if (noResults.parentNode) {
+                    noResults.remove();
+                }
+            }
+            function showNotification(message) {
+                const notification = document.createElement('div');
+                notification.className = 'notification';
+                notification.textContent = message;
+                document.body.appendChild(notification);
+                setTimeout(() => {
+                    notification.classList.add('show');
+                }, 10);
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => notification.remove(), 300);
+                }, 3000);
+            }
+            async function shareEvent(title, url) {
+                try {
+                    if (navigator.share) {
+                        await navigator.share({
+                            title: title,
+                            text: 'Check out this eco event!',
+                            url: url,
+                        });
+                    } else {
+                        // Fallback for browsers that don't support Web Share API
+                        const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(title + ' - ' + url)}`;
+                        window.open(shareUrl, '_blank');
+                    }
+                } catch (err) {
+                    console.error('Error sharing:', err);
+                }
+            }
+        });
+    </script>
+    <style>
+        /* Calendar Styles */
+        .calendar-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 0.6rem; /* reduced padding for compact look */
+            margin: 0 auto 1.5rem; /* center and tighten spacing */
+            max-width: 560px; /* limit calendar width */
+            width: 100%;
+            overflow: hidden;
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .calendar-header button {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }
+        .calendar-header button:hover {
+            background-color: #f0f0f0;
+        }
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.2rem; /* match days gap so columns align exactly */
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 0.35rem;
+            color: #555;
+            align-items: center;
+        }
+        .weekdays > div { 
+            padding: 0.15rem 0; 
+            box-sizing: border-box; 
+        }
+        .days {
+            display: grid;
+            grid-template-columns: repeat(7, 70px);
+            gap: 0.5rem;
+            grid-auto-rows: 2.6rem; /* reduce row height to make calendar more compact */
+            box-sizing: border-box;
+            margin-left: 15px;
+        }
+        .day {
+            aspect-ratio: 1;
+            max-height: 2.6rem;
+            height: 2.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            font-size: 0.95rem;
+            padding: 0.1rem;
+        }
+        .day:hover {
+            background-color: #f0f0f0;
+        }
+        .day.today {
+            background-color: #e3f2fd;
+            font-weight: bold;
+        }
+        .day.selected {
+            background-color: #2196f3;
+            color: white;
+        }
+        /* Replace small dot with full-square green fill for event days */
+        .day.has-event {
+            background-color: #4caf50;
+            color: #fff;
+        }
+        .day.has-event:hover {
+            filter: brightness(0.95);
+        }
+        /* When a day with an event is also selected, use a darker green to indicate selection */
+        .day.selected.has-event {
+            background-color: #2e7d32; /* darker green */
+            color: #fff;
+            box-shadow: 0 0 0 2px rgba(255,255,255,0.12) inset;
+        }
+        .day.other-month {
+            color: #aaa;
+        }
+        /* Selected day events list */
+        .day-events {
+            background: #fff;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin-bottom: 1.5rem;
+        }
+        .day-events-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .day-event-item {
+            padding: 0.5rem;
+            border-radius: 6px;
+            background: #f8f9fa;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .day-event-title { font-weight: 600; }
+        .day-event-meta { color: #666; font-size: 0.85rem; }
+        /* Notification styles */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: transform 0.3s ease-in-out;
+        }
+        .notification.show {
+            transform: translateX(-50%) translateY(0);
+        }
+        /* Button states */
+        .btn-primary.registered {
+            background-color: #4CAF50;
+            cursor: default;
+        }
+        .btn-primary.registered:hover {
+            transform: none;
+            box-shadow: none;
+        }
+        /* No results message */
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            font-style: italic;
+        }
+        /* Event card hover effects */
+        .event-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        /* Responsive adjustments */
+        
+        @media (max-width: 768px) {
+            .filters-section {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .filter-select {
+                width: 100%;
+            }
+            /* make calendar rows slightly shorter on small screens */
+            .days { grid-auto-rows: 2.2rem; }
+            .day { height: 2.2rem; max-height: 2.2rem; font-size: 0.88rem; }
+        }
+    </style>
+</body>
+
+</html>

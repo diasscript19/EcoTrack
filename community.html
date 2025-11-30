@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoTrack - Community</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- GoMap.az Module -->
+    <script src="https://map.ab/api/gomap/index.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</head>
+
+<body>
+    <div class="app">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="navbar-container">
+                <a href="index.html" class="navbar-logo">
+                    <img src="images/logo.png" style="width: 50px;">
+                    <span class="logo-text">EcoTrack</span>
+                </a>
+                <div class="navbar-menu">
+                    <a href="dashboard.html" class="nav-item">Dashboard</a>
+                    <a href="events.html" class="nav-item">Events</a>
+                    <a href="community.html" class="nav-item active">Community</a>
+                    <a href="eco-game.html" class="nav-item">Games</a>
+                    <a href="shop.html" class="nav-item">Shop</a>
+                    <a href="planttree.html" class="nav-item">Plant a Tree</a>
+                </div>
+                <div class="navbar-icons">
+                    <button class="icon-btn">🔔</button>
+                    <button class="icon-btn profile-btn">👤</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="community-container">
+            <div class="map-container">
+                <div id="map" style="height: 600px; width: 100%; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);"></div>
+                <div class="map-controls">
+                    <button id="locate-me" class="map-control-btn" title="Locate Me">📍</button>
+                    <button id="zoom-in" class="map-control-btn" title="Zoom In">+</button>
+                    <button id="zoom-out" class="map-control-btn" title="Zoom Out">-</button>
+                </div>
+            </div>
+
+            <div class="community-content">
+                <!-- Sidebar Filters -->
+                <aside class="community-sidebar">
+                    <h3>Filters</h3>
+                    <div class="filter-group">
+                        <input type="text" class="search-input" placeholder="Search for a location or event...">
+                    </div>
+                    <div class="filter-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" checked>
+                            <span>Recycling Centers</span>
+                        </label>
+                    </div>
+                    <div class="filter-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" checked>
+                            <span>Community Gardens</span>
+                        </label>
+                    </div>
+                    <div class="filter-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" checked>
+                            <span>Eco-Events</span>
+                        </label>
+                    </div>
+                    <div class="filter-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" checked>
+                            <span>User Activity</span>
+                        </label>
+                    </div>
+
+                    <!-- Calendar -->
+                    <div class="calendar-section">
+                        <h4>Date Range</h4>
+                        <div class="calendar-header">
+                            <span>October 2024</span>
+                            <button>›</button>
+                        </div>
+                        <div class="calendar-grid">
+                            <div class="calendar-day">S</div>
+                            <div class="calendar-day">M</div>
+                            <div class="calendar-day">T</div>
+                            <div class="calendar-day">W</div>
+                            <div class="calendar-day">T</div>
+                            <div class="calendar-day">F</div>
+                            <div class="calendar-day">S</div>
+                            <div class="calendar-date">1</div>
+                            <div class="calendar-date">2</div>
+                            <div class="calendar-date">3</div>
+                            <div class="calendar-date">4</div>
+                            <div class="calendar-date">5</div>
+                            <div class="calendar-date">6</div>
+                            <div class="calendar-date">7</div>
+                            <div class="calendar-date">8</div>
+                            <div class="calendar-date active">9</div>
+                            <div class="calendar-date">10</div>
+                            <div class="calendar-date">11</div>
+                            <div class="calendar-date">12</div>
+                            <div class="calendar-date">13</div>
+                            <div class="calendar-date">14</div>
+                            <div class="calendar-date">15</div>
+                            <div class="calendar-date">16</div>
+                            <div class="calendar-date">17</div>
+                            <div class="calendar-date">18</div>
+                            <div class="calendar-date">19</div>
+                            <div class="calendar-date">20</div>
+                            <div class="calendar-date">21</div>
+                            <div class="calendar-date">22</div>
+                            <div class="calendar-date">23</div>
+                            <div class="calendar-date">24</div>
+                            <div class="calendar-date">25</div>
+                            <div class="calendar-date">26</div>
+                            <div class="calendar-date">27</div>
+                            <div class="calendar-date">28</div>
+                            <div class="calendar-date">29</div>
+                            <div class="calendar-date">30</div>
+                            <div class="calendar-date">31</div>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Main Panel -->
+                <section class="community-panel">
+                    <div class="community-event">
+                        <span class="event-pin">📍</span>
+                        <div class="event-details">
+                            <h3>Baku Green Initiative</h3>
+                            <p>Join us at Seaside Park for our weekly community cleanup and tree planting event!</p>
+                            <p><strong>Date:</strong> Every Saturday, 10:00 AM</p>
+                            <p><strong>Location:</strong> Seaside Park, Baku</p>
+                            <button class="btn-primary">Join Event</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize the map centered on Baku, Azerbaijan
+            const map = L.map('map').setView([40.4093, 49.8671], 12);
+
+            // Set minimum and maximum zoom levels for better control
+            map.setMinZoom(10);
+            map.setMaxZoom(18);
+
+            // Add OpenStreetMap tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            // Add Baku locations
+            const locations = [{
+                name: 'Baku Recycling Center',
+                coords: [40.3793, 49.8471],
+                type: 'recycle',
+                details: '24/7 recycling facility for paper, plastic, and glass'
+            }, {
+                name: 'Seaside Park Garden',
+                coords: [40.3593, 49.8371],
+                type: 'garden',
+                details: 'Community garden with organic vegetables and educational programs'
+            }, {
+                name: 'Baku Eco Festival',
+                coords: [40.3793, 49.8871],
+                type: 'event',
+                details: 'Annual environmental festival with workshops and activities'
+            }, {
+                name: 'Ganjlik Park Recycling',
+                coords: [40.3993, 49.8471],
+                type: 'recycle',
+                details: 'Recycling point in Ganjlik Park'
+            }, {
+                name: 'Baku Green Initiative',
+                coords: [40.3893, 49.8571],
+                type: 'event',
+                details: 'Weekly community cleanup and tree planting'
+            }];
+
+            const icons = {
+                recycle: L.icon({
+                    iconUrl: 'https://cdn-icons-png.flaticon.com/512/3063/3063175.png',
+                    iconSize: [32, 32],
+                    iconAnchor: [16, 32],
+                    popupAnchor: [0, -32]
+                }),
+                garden: L.icon({
+                    iconUrl: 'https://cdn-icons-png.flaticon.com/512/709/709612.png',
+                    iconSize: [32, 32],
+                    iconAnchor: [16, 32],
+                    popupAnchor: [0, -32]
+                }),
+                event: L.icon({
+                    iconUrl: 'https://cdn-icons-png.flaticon.com/512/3652/3652194.png',
+                    iconSize: [32, 32],
+                    iconAnchor: [16, 32],
+                    popupAnchor: [0, -32]
+                })
+            };
+
+            // Add markers to the map
+            locations.forEach(location => {
+                L.marker(location.coords, {
+                        icon: icons[location.type]
+                    })
+                    .addTo(map)
+                    .bindPopup(`
+                        <div class="popup-content">
+                            <h4>${location.name}</h4>
+                            <p>${location.details || 'Click for more details'}</p>
+                            <small>Baku, Azerbaijan</small>
+                        </div>
+                    `);
+            });
+
+            // Locate me button
+            document.getElementById('locate-me').addEventListener('click', () => {
+                map.locate({
+                    setView: true,
+                    maxZoom: 16
+                });
+            });
+
+            // Zoom controls
+            document.getElementById('zoom-in').addEventListener('click', () => {
+                map.zoomIn();
+            });
+
+            document.getElementById('zoom-out').addEventListener('click', () => {
+                map.zoomOut();
+            });
+
+            // Handle location found
+            function onLocationFound(e) {
+                const radius = e.accuracy / 2;
+                L.marker(e.latlng).addTo(map)
+                    .bindPopup("You are within " + radius + " meters from this point").openPopup();
+                L.circle(e.latlng, radius).addTo(map);
+            }
+
+            map.on('locationfound', onLocationFound);
+
+            // Handle location error
+            map.on('locationerror', (e) => {
+                alert(e.message);
+            });
+        });
+    </script>
+    <style>
+        .map-container {
+            position: relative;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .map-controls {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .map-control-btn {
+            background: white;
+            border: none;
+            border-radius: 4px;
+            width: 32px;
+            height: 32px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        
+        .map-control-btn:hover {
+            background: #f8f9fa;
+            transform: scale(1.1);
+        }
+        
+        .leaflet-popup-content-wrapper {
+            border-radius: 8px;
+        }
+        
+        .leaflet-popup-content {
+            margin: 10px 15px;
+        }
+        
+        .leaflet-popup-content h3 {
+            margin: 0 0 5px 0;
+            color: #2c3e50;
+        }
+    </style>
+</body>
+
+</html>
